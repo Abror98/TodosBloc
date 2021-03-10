@@ -29,28 +29,48 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       yield* infoFunc(event);
     if(event is DeleteEvent)
       yield* deleteFunc(event);
+    if(event is LoadOrderEvent)
+      yield* infoOrderFunc(event);
   }
-
-
 
   Stream<TaskState> infoFunc(LoadEvent infoEvent) async* {
     yield TaskLoadingState();
     try {
       int id = infoEvent.id;
-      print("OKkkkkkkkkkkkkkkk" + id.toString());
       list = await dataRepository.databaseItems(id);
-      print("OKkkkkkkkkkkkkkkk" + list.length.toString());
       if (list.isEmpty) {
-        yield TaskListErrorState(error: NoInformationClass("No information"));
+        yield TaskListErrorState(error: NoInformationClass("Нет информации"));
       }
       else
         yield TaskLoadedState(list: list);
     } on DatabaseException {
-      yield TaskListErrorState(error: DatabasException('Database exception'));
+      yield TaskListErrorState(error: DatabasException('Исключение базы данных'));
     } on TimeoutException {
-      yield TaskListErrorState(error: TimeOutException("Time out"));
+      yield TaskListErrorState(error: TimeOutException("Тайм-аут"));
     } catch (e) {
       yield TaskListErrorState(error: UnknownException(e.toString()));
+    }
+  }
+
+
+
+
+
+  Stream<TaskState> infoOrderFunc(LoadOrderEvent infoEvent) async* {
+    yield TaskLoadingState();
+    try {
+      list = await dataRepository.databaseOrderDate(infoEvent.id, infoEvent.order);
+      if (list.isEmpty) {
+        yield TaskListErrorState(error: NoInformationClass("Нет информации"));
+      }
+      else
+        yield TaskLoadedState(list: list);
+    } on DatabaseException {
+      yield TaskListErrorState(error: DatabasException('Исключение базы данных'));
+    } on TimeoutException {
+      yield TaskListErrorState(error: TimeOutException("Тайм-аут"));
+    } catch (e) {
+      yield TaskListErrorState(error: UnknownException("Неизвестное исключение"));
     }
   }
 
@@ -68,7 +88,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     } on TimeoutException {
       yield TaskListErrorState(error: TimeOutException("Time out"));
     } catch (e) {
-      yield TaskListErrorState(error: UnknownException(e.toString()));
+      yield TaskListErrorState(error: UnknownException("Неизвестное исключение"));
     }
   }
 

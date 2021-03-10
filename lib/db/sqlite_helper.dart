@@ -68,6 +68,27 @@ class DatabaseHelper{
     return res;
   }
 
+  Future<List<MyModel>>  getAllUserOrderDate(int id, String order) async {
+    var dbClient = await database;
+    List<Map> list = [];
+    if(id == 1)
+      list = await dbClient.rawQuery('select *from $mytable ORDER BY $order($columnDate)');
+    else if(id == 2)
+      list = await dbClient.rawQuery(
+          'select *from $mytable  WHERE $columnStatus = "в прогрессе" ORDER BY $order($columnDate)');
+    else
+      list = await dbClient.rawQuery(
+          'select *from $mytable WHERE $columnStatus = "выполнено" ORDER BY $order($columnDate)');
+    List<MyModel> note = [];
+    list.forEach((it) =>
+        note.add(MyModel(
+            name: it["name"],
+            date: it["date"],
+            status: it["status"])));
+    return note;
+  }
+
+
   Future<List<MyModel>>  getAllUserInfo(int id) async {
     var dbClient = await database;
     List<Map> list = [];

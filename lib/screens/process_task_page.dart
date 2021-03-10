@@ -43,6 +43,26 @@ class _ProcessTaskScreenState extends State<ProcessTaskScreen> {
       appBar: AppBar(
         title: Text("Задачи"),
         actions: [
+          PopupMenuButton(
+            onSelected: (result){
+              if(result == 0)
+                bloc.add(LoadOrderEvent(id: 2, order: "ABS"));
+              else
+                bloc.add(LoadOrderEvent(id: 2, order: "-ABS"));
+
+            },
+            icon: Icon(Icons.filter_list, color:Colors.white),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Text("в порядке возрастания сроков"),
+                value: 0,
+              ),
+              PopupMenuItem(
+                child: Text("в порядке убывания сроков"),
+                value: 1,
+              ),
+            ],
+          ),
           IconButton(
               icon: Icon(Icons.add, color: Colors.white),
               onPressed: () {

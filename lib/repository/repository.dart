@@ -17,4 +17,6 @@ class DataRepository{
 
  Future updateItems(MyModel myModel, MyModel oldModel) => databaseHelper.update(myModel, oldModel).timeout(Duration(seconds: TIME));
 
+ Future<List<MyModel>> databaseOrderDate(int id, String order) => databaseHelper.getAllUserOrderDate(id, order).timeout(Duration(seconds: TIME));
+
 }

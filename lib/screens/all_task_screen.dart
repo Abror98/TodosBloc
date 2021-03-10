@@ -46,16 +46,22 @@ class _AllTaskScreenState extends State<AllTaskScreen> {
         title: Text("Задачи"),
         actions: [
           PopupMenuButton(
+            onSelected: (result){
+              if(result == 0)
+                bloc.add(LoadOrderEvent(id: 1, order: "ABS"));
+              else
+                bloc.add(LoadOrderEvent(id: 1, order: "-ABS"));
+
+            },
             icon: Icon(Icons.filter_list, color:Colors.white),
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: Text("по сроку"),
+                child: Text("в порядке возрастания сроков"),
+                value: 0,
               ),
               PopupMenuItem(
-                child: Text("самые новые"),
-              ),
-              PopupMenuItem(
-                child: Text("самые старые"),
+                child: Text("в порядке убывания сроков"),
+                value: 1,
               ),
             ],
           ),

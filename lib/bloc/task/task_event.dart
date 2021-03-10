@@ -12,6 +12,12 @@ class LoadEvent extends TaskEvent{
   LoadEvent({this.id});
 }
 
+class LoadOrderEvent extends TaskEvent{
+  final int id;
+  final String order;
+  LoadOrderEvent({this.id, this.order});
+}
+
 
 class DeleteEvent extends TaskEvent {
   final String name, date, status;
