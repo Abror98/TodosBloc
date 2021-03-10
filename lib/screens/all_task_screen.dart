@@ -24,7 +24,7 @@ class _AllTaskScreenState extends State<AllTaskScreen> {
       return SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 50, left: 20, right: 20, top: 50),
-          child: CustomDialog.screen(),
+          child: CustomDialog.screen(false),
         ),
       );
     }).then((_) => bloc.add(LoadEvent(id: 1)));
@@ -45,6 +45,20 @@ class _AllTaskScreenState extends State<AllTaskScreen> {
       appBar: AppBar(
         title: Text("Задачи"),
         actions: [
+          PopupMenuButton(
+            icon: Icon(Icons.filter_list, color:Colors.white),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Text("по сроку"),
+              ),
+              PopupMenuItem(
+                child: Text("самые новые"),
+              ),
+              PopupMenuItem(
+                child: Text("самые старые"),
+              ),
+            ],
+          ),
           IconButton(icon: Icon(Icons.add, color: Colors.white),
               onPressed: () {
                 openDialog();

@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomDialog extends StatefulWidget {
   String name, date, status;
-  bool edit = false;
+  bool edit;
 
 
   CustomDialog({this.name, this.date, this.status, this.edit});
@@ -16,9 +16,9 @@ class CustomDialog extends StatefulWidget {
     child: CustomDialog(name: name, date: date, status: status, edit: edit),
   );
 
-  static Widget screen() => BlocProvider(
+  static Widget screen(bool edit) => BlocProvider(
     create: (context) => CustomDialogBloc(context),
-    child: CustomDialog(),
+    child: CustomDialog(edit: edit),
   );
 
 

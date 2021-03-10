@@ -23,7 +23,7 @@ class _ProcessTaskScreenState extends State<ProcessTaskScreen> {
       return SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 50, left: 20, right: 20, top: 50),
-          child: CustomDialog.screen(),
+          child: CustomDialog.screen(false),
         ),
       );
     }).then((_) => bloc.add(LoadEvent(id: 2)));
